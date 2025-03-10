@@ -28,7 +28,7 @@
 
 ### 🔽 Clone the Repository:
 ```bash
-git clone https://github.com/RamziZamil/User-Registration-MongoDB.git
+git clone https://github.com/RamziZamil/User-Registration-MongoDB
 cd User-Registration-MongoDB
 ```
 ## 🔧 Backend Setup:
