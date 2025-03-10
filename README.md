@@ -61,7 +61,6 @@ cd frontend
 2. Install dependencies:
 ```bash
 npm install
-npm install @mui/material @emotion/react @emotion/styled sweetalert2 axios
 ```
 
 3. Start the development server:
