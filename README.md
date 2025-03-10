@@ -30,3 +30,48 @@
 ```bash
 git clone https://github.com/RamziZamil/User-Registration-MongoDB.git
 cd User-Registration-MongoDB
+```
+## 🔧 Backend Setup:
+1. Navigate to the backend folder (if your project is split into folders):
+```bash
+cd backend
+```
+2. Install dependencies:
+```bash
+npm install express mongoose bcryptjs jsonwebtoken cookie-parser cors dotenv
+```
+
+3. Create a .env file at the root with the following content:
+```bash
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/auth_demo?retryWrites=true&w=majority
+JWT_SECRET=your_secret_key
+PORT=5000
+```
+4. Start the server:
+```bash
+nodemon server.js
+```
+🎨 Frontend Setup:
+1. Navigate to the frontend folder (if applicable):
+```bash
+cd frontend
+
+```
+
+2. Install dependencies:
+```bash
+npm install
+npm install @mui/material @emotion/react @emotion/styled sweetalert2 axios
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+
+
+
+
+
+
