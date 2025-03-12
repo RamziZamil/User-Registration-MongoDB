@@ -1,14 +1,15 @@
-const express = require('express');
+// backend/routes/authRoutes.js
+const express = require("express");
 const router = express.Router();
-const authController = require('../controllers/authController');
+const authController = require("../controllers/authController");
 
-// User registration
-router.post('/register', authController.register);
+// Register
+router.post("/register", authController.register);
 
-// User login
-router.post('/login', authController.login);
+// Login
+router.post("/login", authController.login);
 
-// Protected profile route
-router.get('/profile', authController.authenticate, authController.getProfile);
+// Profile
+router.get("/profile", authController.authenticate, authController.getProfile);
 
 module.exports = router;

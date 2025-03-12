@@ -1,13 +1,19 @@
+// backend/controllers/authController.js
 const User = require("../models/User");
+const Order = require("../models/Order");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// Register a new user
+// Register a new user (requires username, email, password)
 exports.register = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, email, password } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, password: hashedPassword });
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+    });
     await newUser.save();
     res.status(201).json({ message: "User registered successfully." });
   } catch (error) {
@@ -16,7 +22,7 @@ exports.register = async (req, res) => {
   }
 };
 
-// Log in an existing user
+// Log in an existing user (by username, password)
 exports.login = async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -33,11 +39,11 @@ exports.login = async (req, res) => {
       expiresIn: "1h",
     });
 
-    // Set token in HTTP-only cookie (set 'secure: true' in production with HTTPS)
+    // Set token in HTTP-only cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, // set true only if using HTTPS
-      sameSite: "lax", // or 'none' if client/server are on different domains (requires secure: true)
+      secure: false, // set true if using HTTPS in production
+      sameSite: "lax",
     });
 
     res.json({ message: "Logged in successfully." });
@@ -47,19 +53,22 @@ exports.login = async (req, res) => {
   }
 };
 
-// Get the authenticated user's profile
+// Get the authenticated user's profile (plus their orders)
 exports.getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
     if (!user) return res.status(404).json({ error: "User not found." });
-    res.json({ user });
+
+    // Fetch the user's orders
+    const orders = await Order.find({ user: req.user.id });
+    res.json({ user, orders });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Fetching profile failed." });
   }
 };
 
-// Middleware to verify JWT token
+// Middleware to verify JWT token from cookies
 exports.authenticate = (req, res, next) => {
   const token = req.cookies.token;
   if (!token)
